@@ -39,14 +39,8 @@ static void start_child_process(const char *file, char *const argv[])
 
 static void kill_child(void)
 {
-	if (kill(cpid, 0) == 0) {
-		if (kill(cpid, SIGTERM) == -1)
-			perror("kill");
-		else
-			/* Success */;
-	} else {
-		fprintf(stderr, "Process with PID %d already dead\n", cpid);
-	}
+	if (cpid != -1 && kill(cpid, 0) == 0 && kill(cpid, SIGTERM) == -1)
+		perror("kill");
 }
 
 static void sig_handler(int signum)
